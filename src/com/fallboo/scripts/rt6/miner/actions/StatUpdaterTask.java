@@ -5,23 +5,19 @@
  */
 package com.fallboo.scripts.rt6.miner.actions;
 
-import com.fallboo.scripts.rt6.framework.GraphScript;
-import com.fallboo.scripts.rt6.miner.AIOMiner;
-import org.powerbot.script.rt4.Skills;
 import com.fallboo.scripts.rt6.framework.ClientContext;
+import com.fallboo.scripts.rt6.framework.GraphScript;
+import org.powerbot.script.rt4.Skills;
 
 /**
- *
  * @author Jake
  */
 public class StatUpdaterTask extends GraphScript.Action<ClientContext> {
 
     private long lastUpdate = 0;
-    private final AIOMiner miner;
 
-    public StatUpdaterTask(ClientContext ctx, AIOMiner miner) {
+    public StatUpdaterTask(ClientContext ctx) {
         super(ctx);
-        this.miner = miner;
     }
 
     @Override
@@ -31,17 +27,22 @@ public class StatUpdaterTask extends GraphScript.Action<ClientContext> {
 
     @Override
     public void run() {
-        if (miner.getStartLevel() == 0) {
+        if (!ctx.paint.hasLevels("Mining")) {
             int startLevel = ctx.skills.level(Skills.MINING),
                     startXp = ctx.skills.experience(Skills.MINING);
-            miner.setStartLevel(startLevel);
-            miner.setStartXp(startXp);
+            if (startLevel <= 0) {
+                lastUpdate += 7500;
+                return;
+            }
+            ctx.paint
+                    .setLevel("Mining", startLevel);
+            ctx.paint.setExp("Mining", startXp);
         } else {
             int currLevel = ctx.skills.level(Skills.MINING),
                     currXp = ctx.skills.experience(Skills.MINING);
             if (currLevel > 0) {
-                miner.setCurrLevel(currLevel);
-                miner.setCurrXp(currXp);
+                ctx.paint.setLevel("Mining", currLevel);
+                ctx.paint.setExp("Mining", currXp);
             }
         }
         lastUpdate = ctx.controller.script().getTotalRuntime() + 7500;

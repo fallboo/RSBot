@@ -1,26 +1,33 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.framework;
 
-import com.fallboo.scripts.rt6.framework.GraphScript.Action;
 import org.powerbot.script.Random;
-import com.fallboo.scripts.rt6.framework.ClientContext;
+import org.powerbot.script.rt6.GameObject;
+import org.powerbot.script.rt6.Interactive;
 
-public class AntiPattern extends Action<ClientContext> {
+public class AntiPattern {
 
     private long nextRun;
+    private final ClientContext ctx;
+
+    //TODO Add misclicking for components, objects(?), Mouse off screen, defocusing/focusing
+    public enum State {
+        IDLE, MOVING
+    }
 
     public AntiPattern(ClientContext ctx) {
-        super(ctx);
-        nextRun = System.currentTimeMillis() + Random.nextInt(6000, 25000);
+        this.ctx = ctx;
+        nextRun = ctx.controller.script().getRuntime() + Random.nextInt(6000, 25000);
     }
 
-    @Override
-    public boolean valid() {
-        return System.currentTimeMillis() > nextRun;
+
+    private boolean valid() {
+        return ctx.controller.script().getRuntime() > nextRun;
     }
 
-    @Override
-    public void run() {
-        switch (Random.nextInt(0, 15)) {
+    public void run(State state) {
+        if (!valid())
+            return;
+        switch (Random.nextInt(0, 25)) {
             case 1:
                 setPitch(20);
                 setYaw(90);
@@ -37,9 +44,16 @@ public class AntiPattern extends Action<ClientContext> {
                 setPitch(60);
                 setYaw(90);
                 break;
+            case 5:
+                if (state == State.IDLE) {
+                    GameObject go = ctx.objects.select(Interactive.areInViewport()).shuffle().poll();
+                    if (go.valid())
+                        go.interact("Examine");
+                }
+                break;
 
         }
-        nextRun = System.currentTimeMillis() + Random.nextInt(6000, 25000);
+        nextRun = ctx.controller.script().getRuntime() + Random.nextInt(6000, 25000);
     }
 
     private void setYaw(int i) {

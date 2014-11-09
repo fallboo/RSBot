@@ -1,27 +1,24 @@
 package com.fallboo.scripts.rt6.miner.actions;
 
-import com.fallboo.scripts.rt6.miner.AIOMiner;
+import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
 import com.fallboo.scripts.rt6.miner.data.MiningStyle;
 import com.fallboo.scripts.rt6.miner.data.Ores;
-
-import java.util.concurrent.Callable;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
-import com.fallboo.scripts.rt6.framework.ClientContext;
 import org.powerbot.script.rt6.Item;
+
+import java.util.concurrent.Callable;
 
 public class OreDrop extends GraphScript.Action<ClientContext> {
 
     private final MiningStyle miningStyle;
     private final Ores ore;
-    private final AIOMiner miner;
 
-    public OreDrop(ClientContext ctx, MiningStyle miningStyle, Ores ore, AIOMiner miner) {
+    public OreDrop(ClientContext ctx, MiningStyle miningStyle, Ores ore) {
         super(ctx);
         this.miningStyle = miningStyle;
         this.ore = ore;
-        this.miner = miner;
     }
 
     @Override
@@ -36,7 +33,7 @@ public class OreDrop extends GraphScript.Action<ClientContext> {
 
     @Override
     public void run() {
-        miner.setStatus("Dropping");
+        ctx.paint.setStatus("Dropping ores");
         if (!ctx.combatBar.select().id(ore.getId()).isEmpty()) {
             int ores = ctx.backpack.id(ore.getId()).count();
             int key = ctx.combatBar.poll().slot() + 1;

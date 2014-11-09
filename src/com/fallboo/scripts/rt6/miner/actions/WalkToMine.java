@@ -1,39 +1,37 @@
 package com.fallboo.scripts.rt6.miner.actions;
 
-import com.fallboo.scripts.rt6.miner.AIOMiner;
+import com.fallboo.scripts.rt6.framework.AntiPattern;
+import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript.Action;
 import com.fallboo.scripts.rt6.miner.data.Mines;
-import com.fallboo.scripts.rt6.framework.ClientContext;
-
-import java.util.concurrent.Callable;
 import org.powerbot.script.Condition;
 
+import java.util.concurrent.Callable;
+
 public class WalkToMine extends Action<ClientContext> {
-    
+
     private final Mines mine;
-    private final AIOMiner miner;
-    
-    public WalkToMine(ClientContext ctx, Mines mines, AIOMiner miner) {
+
+    public WalkToMine(ClientContext ctx, Mines mines) {
         super(ctx);
         this.mine = mines;
-        this.miner = miner;
     }
-    
+
     @Override
     public boolean valid() {
         return ctx.backpack.select().count() < 28
-                && !mine.getMineArea().contains(ctx.players.local())
-                && ctx.players.local().animation() == -1;
+                && ctx.players.local().animation() == -1 && mine.getLocation().distanceTo(ctx.players.local()) > 10;
     }
-    
+
     @Override
     public void run() {
-        miner.setStatus("Walking to mine");
+        ctx.paint.setStatus("Walking to mine");
         if (!ctx.movement.newTilePath(mine.getBankToLocation()).traverse()) {
             ctx.movement.findPath(mine.getLocation()).traverse();
         }
+        ctx.antiPattern.run(AntiPattern.State.MOVING);
         Condition.wait(new Callable<Boolean>() {
-            
+
             @Override
             public Boolean call() throws Exception {
                 return !ctx.players.local().idle();

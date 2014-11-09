@@ -1,12 +1,10 @@
 package com.fallboo.scripts.rt6.miner.data;
 
+import org.powerbot.script.Tile;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
-import org.powerbot.script.Area;
-
-import org.powerbot.script.Tile;
 
 public enum Mines {
 
@@ -20,16 +18,7 @@ public enum Mines {
                     new Tile(3173, 3390, 0),
                     new Tile(3176, 3380, 0),
                     new Tile(3179, 3370, 0)},
-            new Rocks[]{Rocks.COPPER, Rocks.TIN, Rocks.IRON, Rocks.SILVER}, new Area(
-            new Tile(3181, 3381, 0),
-            new Tile(3173, 3374, 0),
-            new Tile(3165, 3368, 0),
-            new Tile(3173, 3362, 0),
-            new Tile(3183, 3363, 0),
-            new Tile(3191, 3369, 0),
-            new Tile(3189, 3379, 0),
-            new Tile(3179, 3382, 0)
-    )
+            new Rocks[]{Rocks.COPPER, Rocks.TIN, Rocks.IRON, Rocks.SILVER}
     ),
     VARROCK_EAST(new Tile(3284, 3365), new Tile(3252, 3418),
             new Tile[]{new Tile(3253, 3421, 0),
@@ -43,28 +32,14 @@ public enum Mines {
                     new Tile(3294, 3384, 0),
                     new Tile(3291, 3374, 0),
                     new Tile(3285, 3366, 0)},
-            new Rocks[]{Rocks.COPPER, Rocks.TIN, Rocks.IRON}, new Area(
-            new Tile(3281, 3374, 0),
-            new Tile(3275, 3366, 0),
-            new Tile(3278, 3356, 0),
-            new Tile(3288, 3354, 0),
-            new Tile(3298, 3357, 0),
-            new Tile(3294, 3367, 0),
-            new Tile(3292, 3373, 0)
-    )
+            new Rocks[]{Rocks.COPPER, Rocks.TIN, Rocks.IRON}
     ), LUMBRIDGE_EAST(new Tile(3229, 3148), new Tile(3270, 3168),
-            new Tile[]{new Tile(3271, 3168, 0),
-                    new Tile(3262, 3173, 0),
-                    new Tile(3253, 3170, 0),
-                    new Tile(3238, 3164, 0),
-                    new Tile(3233, 3152, 0),
-                    new Tile(3228, 3147, 0)},
-            new Rocks[]{Rocks.COPPER, Rocks.TIN,}, new Area(
-            new Tile(3219, 3153, 0),
-            new Tile(3219, 3142, 0),
-            new Tile(3236, 3142, 0),
-            new Tile(3236, 3153, 0)
-    )
+            new Tile[]{new Tile(3270, 3168, 0),
+                    new Tile(3259, 3173, 0),
+                    new Tile(3241, 3169, 0),
+                    new Tile(3236, 3158, 0),
+                    new Tile(3230, 3150, 0)},
+            new Rocks[]{Rocks.COPPER, Rocks.TIN}
     ),
     LUMBRIDGE_WEST(new Tile(3146, 3146), new Tile(3092, 3245),
             new Tile[]{new Tile(3094, 3243, 0),
@@ -91,14 +66,7 @@ public enum Mines {
                     new Tile(3148, 3158, 0),
                     new Tile(3148, 3153, 0),
                     new Tile(3146, 3148, 0)},
-            new Rocks[]{Rocks.COAL, Rocks.MITHRIL}, new Area(
-            new Tile(3145, 3152, 0),
-            new Tile(3141, 3144, 0),
-            new Tile(3142, 3141, 0),
-            new Tile(3146, 3140, 0),
-            new Tile(3151, 3145, 0),
-            new Tile(3154, 3150, 0)
-    )
+            new Rocks[]{Rocks.COAL, Rocks.MITHRIL}
     ), AL_KHARID(new Tile(3300, 3310), new Tile(3270, 3168),
             new Tile[]{new Tile(3270, 3170, 0),
                     new Tile(3273, 3174, 0),
@@ -130,39 +98,19 @@ public enum Mines {
                     new Tile(3298, 3294, 0),
                     new Tile(3298, 3299, 0),
                     new Tile(3299, 3304, 0)},
-            new Rocks[]{Rocks.COAL, Rocks.SILVER, Rocks.IRON, Rocks.MITHRIL}, new Area(
-            new Tile(3300, 3321, 0),
-            new Tile(3294, 3313, 0),
-            new Tile(3294, 3313, 0),
-            new Tile(3291, 3305, 0),
-            new Tile(3293, 3299, 0),
-            new Tile(3295, 3297, 0),
-            new Tile(3293, 3285, 0),
-            new Tile(3297, 3282, 0),
-            new Tile(3308, 3287, 0),
-            new Tile(3307, 3299, 0),
-            new Tile(3308, 3307, 0),
-            new Tile(3308, 3319, 0),
-            new Tile(3307, 3321, 0)
-    )
+            new Rocks[]{Rocks.COAL, Rocks.SILVER, Rocks.IRON, Rocks.MITHRIL}
     );
 
-    private Tile location, bank;
-    private Rocks[] ores;
-    private Tile[] bankToLocation;
-    private Area mineArea;
+    private final Tile location, bank;
+    private final Rocks[] ores;
+    private final Tile[] bankToLocation;
 
     Mines(Tile location, Tile bankLocation, Tile bankToLocation[],
-          Rocks[] ores, Area mineArea) {
+          Rocks[] ores) {
         this.location = location;
         this.bank = bankLocation;
         this.ores = ores;
         this.bankToLocation = bankToLocation;
-        this.mineArea = mineArea;
-    }
-
-    public Area getMineArea() {
-        return mineArea;
     }
 
     public Tile getLocation() {
