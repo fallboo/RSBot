@@ -6,7 +6,10 @@ import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
 import org.powerbot.script.Condition;
+import org.powerbot.script.Filter;
 import org.powerbot.script.rt6.GameObject;
+import org.powerbot.script.rt6.Item;
+import org.powerbot.script.rt6.Menu;
 import org.powerbot.script.rt6.Widget;
 
 import java.util.concurrent.Callable;
@@ -41,16 +44,14 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
 
     @Override
     public void run() {
-        ctx.paint.setStatus("Cooking");
+        ctx.paint.setStatus("Cooking " + food.getName());
         ctx.widgets.select().id(OVEN_WIDGET, CLOSE_WIDGET);
         final Widget ovenWidget = getSelectedWidget(OVEN_WIDGET), closeWidget = getSelectedWidget(CLOSE_WIDGET);
         if (ovenWidget == null || closeWidget == null) {
-            System.out.println("Return 1");
             return;
         }
         if (!ovenWidget.component(OVEN_SELECT_COMPONENT).visible() && !closeWidget.component(CLOSE_WIDGET_COMPONENT).visible()) {
             if (!clickRange()) {
-                System.out.println("Return 2");
                 return;
             }
             Condition.sleep(250);
@@ -101,7 +102,25 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
                 }
             }, 200, 5);
         }
-        return range.interact("Cook-at");
+        if (!ctx.backpack.itemSelected()) {
+            final Item item = ctx.backpack.select().id(food.getIds()).shuffle().poll();
+            if (!item.interact(true, "Use")) {
+                return false;
+            }
+            if (!Condition.wait(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return ctx.backpack.itemSelected();
+                }
+            }, 100, 6))
+                return false;
+        }
+        return range.interact(false, new Filter<Menu.Command>() {
+            @Override
+            public boolean accept(Menu.Command command) {
+                return command.action.contains("Use") && command.option.contains("Oven");
+            }
+        });
     }
 
     private Widget getSelectedWidget(int id) {

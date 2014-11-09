@@ -1,7 +1,8 @@
 package com.fallboo.scripts.rt6.framework;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Jake on 08/11/2014.
@@ -9,8 +10,8 @@ import java.util.HashMap;
 public class Paint {
     private String status = "Setting up";
     private String title = "";
-    private final HashMap<String, IntegerPair> levels = new HashMap<String, IntegerPair>(), expGain = new HashMap<String, IntegerPair>();
-    private final HashMap<String, Integer> itemsGained = new HashMap<String, Integer>();
+    private final Map<String, IntegerPair> levels = new TreeMap<String, IntegerPair>(), expGain = new TreeMap<String, IntegerPair>();
+    private final Map<String, Integer> itemsGained = new TreeMap<String, Integer>();
     private final ClientContext ctx;
 
     public Paint(ClientContext ctx) {

@@ -27,7 +27,7 @@ public class WalkToRange extends Action<ClientContext> {
 
     @Override
     public void run() {
-        ctx.paint.setStatus("Walking to mine");
+        ctx.paint.setStatus("Walking to Range");
         if (!ctx.movement.newTilePath(mine.getBankToLocation()).traverse()) {
             ctx.movement.findPath(mine.getStoveLocation()).traverse();
         }

@@ -31,6 +31,7 @@ public class Mine extends GraphScript.Action<ClientContext> {
 
     @Override
     public void run() {
+        ctx.paint.setStatus("Mining");
         oreClicker.clickNextOre();
         if (!oreClicker.isCurrentOreValid()) {
             oreClicker.clearInteracting();

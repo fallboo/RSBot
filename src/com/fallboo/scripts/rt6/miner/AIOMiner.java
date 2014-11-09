@@ -18,7 +18,7 @@ import java.awt.*;
 public class AIOMiner extends GraphScript<ClientContext> implements PaintListener, MessageListener {
 
     private Gui gui = null;
-    private final double version = 0.1;
+    private final double version = 0.2;
     private AIOMiner instance;
 
     @SuppressWarnings("serial")
