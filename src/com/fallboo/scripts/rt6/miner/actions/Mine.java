@@ -3,9 +3,9 @@ package com.fallboo.scripts.rt6.miner.actions;
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
+import com.fallboo.scripts.rt6.miner.data.Mines;
 import com.fallboo.scripts.rt6.miner.data.Rocks;
 import org.powerbot.script.Condition;
-import org.powerbot.script.Random;
 import org.powerbot.script.rt6.Interactive;
 
 import java.util.concurrent.Callable;
@@ -14,9 +14,11 @@ public class Mine extends GraphScript.Action<ClientContext> {
 
     private final Rocks ore;
     private final OreClicker oreClicker;
+    private final Mines mines;
 
-    public Mine(ClientContext ctx, Rocks ores) {
+    public Mine(ClientContext ctx, Mines mines, Rocks ores) {
         super(ctx);
+        this.mines = mines;
         oreClicker = new OreClicker(ctx, ores);
         this.ore = ores;
     }
@@ -25,19 +27,17 @@ public class Mine extends GraphScript.Action<ClientContext> {
     public boolean valid() {
         return ctx.backpack.select().count() < 28
                 && hasMine()
-                && ctx.players.local().animation() == -1
-                && !ctx.players.local().inMotion();
+                && !ctx.players.local().inMotion() && mines.getLocation().distanceTo(ctx.players.local()) < 25;
     }
 
     @Override
     public void run() {
         ctx.paint.setStatus("Mining");
-        oreClicker.clickNextOre();
+        if (!oreClicker.clickNextOre()) return;
         if (!oreClicker.isCurrentOreValid()) {
             oreClicker.clearInteracting();
             return;
         }
-        Condition.sleep(Random.nextInt(850, 1350));
         if (!Condition.wait(new Callable<Boolean>() {
 
             @Override
@@ -54,7 +54,7 @@ public class Mine extends GraphScript.Action<ClientContext> {
             public Boolean call() throws Exception {
                 return ctx.players.local().animation() != -1 || !oreClicker.isCurrentOreValid();
             }
-        }, 100, 5)) {
+        }, 100, 25)) {
             return;
         }
         Condition.wait(new Callable<Boolean>() {
@@ -68,6 +68,6 @@ public class Mine extends GraphScript.Action<ClientContext> {
     }
 
     private boolean hasMine() {
-        return !ctx.objects.select().id(ore.getIds()).select(Interactive.areInViewport()).isEmpty() || !ctx.objects.select().id(ore.getIds()).isEmpty();
+        return !ctx.objects.select(Interactive.areInViewport()).id(ore.getIds()).isEmpty() || !ctx.objects.select().id(ore.getIds()).isEmpty();
     }
 }

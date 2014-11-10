@@ -39,15 +39,15 @@ public class OreClicker {
         };
     }
 
-    public void clickNextOre() {
+    public boolean clickNextOre() {
         if (next == null || !next.valid() || next.actions().length == 0) {
             calculateNextRock();
         }
         if (next != null && next.valid()) {
             moveToNext();
             if (next != null || !next.valid() || next.actions().length == 0) {
-                if (ctx.objects.select().id(ores.getIds()).select(Interactive.areInViewport()).isEmpty() && ctx.objects.select().id(ores.getIds()).isEmpty())
-                    return;
+                if (ctx.objects.select(Interactive.areInViewport()).id(ores.getIds()).isEmpty() && ctx.objects.select().id(ores.getIds()).isEmpty())
+                    return false;
                 calculateNextRock();
             }
             if (Random.nextInt(0, 12) == 1) {
@@ -58,12 +58,14 @@ public class OreClicker {
                 if (next.valid()) {
                     moveToNext();
                 } else {
-                    calculateNextRock();
+                    return false;
                 }
             }
             interacting = next;
             next = null;
+            return true;
         }
+        return false;
     }
 
     private void moveToNext() {
@@ -72,7 +74,6 @@ public class OreClicker {
         }
         if (ctx.players.local().tile().distanceTo(next) > 8)
             ctx.movement.step(next);
-        Condition.sleep(Random.nextInt(800, 1200));
         Condition.wait(new Callable<Boolean>() {
 
             @Override

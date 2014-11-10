@@ -20,7 +20,7 @@ public class WalkToMine extends Action<ClientContext> {
     @Override
     public boolean valid() {
         return ctx.backpack.select().count() < 28
-                && ctx.players.local().animation() == -1 && mine.getLocation().distanceTo(ctx.players.local()) > 10;
+                && ctx.players.local().animation() == -1 && mine.getLocation().distanceTo(ctx.players.local()) > 25;
     }
 
     @Override

@@ -51,7 +51,7 @@ public class AIOMiner extends GraphScript<ClientContext> implements PaintListene
     public void setupMining(Mines mine, Rocks ores, MiningStyle ms) {
         setupNormalActions();
         chain.add(new WalkToMine(ctx, mine));
-        chain.add(new Mine(ctx, ores));
+        chain.add(new Mine(ctx, mine, ores));
         if (ms == MiningStyle.BANK) {
             chain.add(new BankOres(ctx));
             chain.add(new WalkToBank(ctx, mine));
