@@ -78,10 +78,6 @@ public class Gui extends JFrame {
     }
 
     private void foodTypeChange() {
-        switch ((FoodTypes) foodTypeBox.getSelectedItem()) {
-            case FISH:
-                foodSelectionBox.setModel(new DefaultComboBoxModel(Fish.values()));
-                break;
-        }
+        foodSelectionBox.setModel(new DefaultComboBoxModel(((FoodTypes) foodTypeBox.getSelectedItem()).getValues()));
     }
 }

@@ -58,9 +58,9 @@ public class BurthCooker extends GraphScript<ClientContext> implements PaintList
     @Override
     public void messaged(MessageEvent me) {
         if (me.type() == 109) {
-            if (me.text().contains("You successfully")) {
-                ctx.paint.addItem(food.getName());
-            } else if (me.text().contains("You accidentally")) {
+            if (me.text().contains("You successfully") || me.text().contains("You cook")) {
+                ctx.paint.addItem("Cooked " + food.getName());
+            } else if (me.text().contains("burn")) {
                 ctx.paint.addItem("Burnt " + food.getName());
             }
         }

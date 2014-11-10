@@ -45,7 +45,7 @@ public class StatUpdaterTask extends GraphScript.Action<ClientContext> {
                 ctx.paint.setExp("Cooking", currXp);
             }
         }
-        lastUpdate = ctx.controller.script().getTotalRuntime() + 7500;
+        lastUpdate = ctx.controller.script().getTotalRuntime() + 1500;
     }
 
 }

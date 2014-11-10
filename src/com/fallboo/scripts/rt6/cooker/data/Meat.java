@@ -1,19 +1,24 @@
 package com.fallboo.scripts.rt6.cooker.data;
 
 /**
- * Created by Jake on 08/11/2014.
+ * Created by Jake on 09/11/2014.
  */
-public enum FoodTypes {
+public enum Meat implements CookableFood {
+    BEEF(2132), RAT(2134), BEAR(2136), YAK(10816), CHICKEN(2138), UGTHANKI(1859), RABBIT(3226);
+    private final int id;
 
-    FISH(Fish.class), MEAT(Meat.class);
-    private final Class<? extends CookableFood> foodClass;
-
-    <E extends CookableFood> FoodTypes(Class<E> foodClass) {
-        this.foodClass = foodClass;
+    Meat(int id) {
+        this.id = id;
     }
 
-    public CookableFood[] getValues() {
-        return foodClass.getEnumConstants();
+    @Override
+    public int[] getIds() {
+        return new int[]{id};
+    }
+
+    @Override
+    public String getName() {
+        return toString();
     }
 
     @Override
