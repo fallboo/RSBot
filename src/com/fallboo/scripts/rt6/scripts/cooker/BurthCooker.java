@@ -13,9 +13,8 @@ import org.powerbot.script.PaintListener;
 import org.powerbot.script.Script;
 
 import java.awt.*;
-import java.util.regex.Pattern;
 
-@Script.Manifest(name = "hCooker", description = "Cooks food in Burthrope")
+@Script.Manifest(name = "hCooker", description = "Cooks food in Burthrope and Al Kahrid")
 public class BurthCooker extends GraphScript<ClientContext> implements PaintListener, MessageListener {
 
     private Gui gui = null;
@@ -43,12 +42,9 @@ public class BurthCooker extends GraphScript<ClientContext> implements PaintList
         ctx.paint.draw(g1);
     }
 
-    private void setupNormalActions() {
-        chain.add(new StatUpdaterTask(ctx));
-    }
 
     public void setupCooking(Bank bank, FoodTypes foodTypes, CookableFood food) {
-        setupNormalActions();
+        chain.add(new StatUpdaterTask(ctx));
         this.food = food;
         chain.add(new WalkToRange(ctx, bank, food));
         chain.add(new Cook(ctx, foodTypes, food));
@@ -56,12 +52,10 @@ public class BurthCooker extends GraphScript<ClientContext> implements PaintList
         chain.add(new WalkToBank(ctx, bank, food));
     }
 
-    private final Pattern cookPattern = Pattern.compile("(You )(success?fully|cook|manage to cook).*", Pattern.CASE_INSENSITIVE);
-
     @Override
     public void messaged(MessageEvent me) {
         if (me.type() == 109) {
-            if (me.text().matches(cookPattern.pattern())) {
+            if (me.text().matches("(You )(success?fully|cook|manage to cook).*")) {
                 ctx.paint.addItem("Cooked " + food.getName());
             } else if (me.text().contains("burn")) {
                 ctx.paint.addItem("Burnt " + food.getName());

@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public enum Bank {
     BURTHROPE(new Tile(2896, 3441), new Tile(2876, 3417), new Tile[]{new Tile(2876, 3417, 0), new Tile(2884, 3436, 0), new Tile(2896, 3441, 0)}),
-    AL_KARHAD(new Tile(3270, 3184), new Tile(3270, 3168), new Tile[]{new Tile(3270, 3168), new Tile(3270, 3184)});
+    AL_KAHRID(new Tile(3270, 3184), new Tile(3270, 3168), new Tile[]{new Tile(3270, 3168), new Tile(3270, 3184)});
 
     private final Tile stoveLocation, bank;
     private final Tile[] bankToLocation;

@@ -20,14 +20,8 @@ public class WalkToBank extends GraphScript.Action<ClientContext> {
     public WalkToBank(ClientContext ctx, Bank banks, CookableFood cookableFood) {
         super(ctx);
         this.cookableFood = cookableFood;
-        //TODO Change when more banks added
-        if (banks != null) {
-            bank = banks.getBank();
-            pathToBank = banks.getLocationToBank();
-        } else {
-            bank = banks.getBank();
-            pathToBank = banks.getLocationToBank();
-        }
+        bank = banks.getBank();
+        pathToBank = banks.getLocationToBank();
     }
 
     @Override
