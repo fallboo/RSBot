@@ -1,17 +1,19 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
-import com.fallboo.scripts.rt6.framework.GraphScript.Action;
-import java.util.concurrent.Callable;
-import org.powerbot.script.Condition;
 import com.fallboo.scripts.rt6.framework.ClientContext;
+import com.fallboo.scripts.rt6.framework.GraphScript.Action;
+import org.powerbot.script.Condition;
 import org.powerbot.script.rt6.Item;
 import org.powerbot.script.rt6.Widget;
+
+import java.util.concurrent.Callable;
 
 public class KeyUsing extends Action<ClientContext> {
 
     public KeyUsing(ClientContext ctx) {
         super(ctx);
     }
+
     private final int KEY_WIDGET = 1048, KEY_COMPONENT = 30;
 
     @Override

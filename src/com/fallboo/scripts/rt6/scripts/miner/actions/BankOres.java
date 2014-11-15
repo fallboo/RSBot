@@ -1,4 +1,4 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fallboo.scripts.rt6.miner.data;
+package com.fallboo.scripts.rt6.scripts.miner.data;
 
 /**
  * @author Jake

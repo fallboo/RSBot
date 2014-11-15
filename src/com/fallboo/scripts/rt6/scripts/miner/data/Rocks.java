@@ -1,4 +1,4 @@
-package com.fallboo.scripts.rt6.miner.data;
+package com.fallboo.scripts.rt6.scripts.miner.data;
 
 public enum Rocks {
 

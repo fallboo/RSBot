@@ -1,10 +1,10 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
-import com.fallboo.scripts.rt6.miner.data.Mines;
-import com.fallboo.scripts.rt6.miner.data.Rocks;
+import com.fallboo.scripts.rt6.scripts.miner.data.Mines;
+import com.fallboo.scripts.rt6.scripts.miner.data.Rocks;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt6.Interactive;
 

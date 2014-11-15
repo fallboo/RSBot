@@ -1,9 +1,9 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
-import com.fallboo.scripts.rt6.miner.data.Mines;
+import com.fallboo.scripts.rt6.scripts.miner.data.Mines;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 
@@ -17,7 +17,7 @@ public class WalkToBank extends GraphScript.Action<ClientContext> {
     public WalkToBank(ClientContext ctx, Mines mines) {
         super(ctx);
         bank = mines.getBank();
-            pathToBank = mines.getLocationToBank();
+        pathToBank = mines.getLocationToBank();
     }
 
     @Override

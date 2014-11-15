@@ -1,9 +1,9 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript.Action;
-import com.fallboo.scripts.rt6.miner.data.Mines;
+import com.fallboo.scripts.rt6.scripts.miner.data.Mines;
 import org.powerbot.script.Condition;
 
 import java.util.concurrent.Callable;

@@ -1,9 +1,9 @@
-package com.fallboo.scripts.rt6.miner.gui;
+package com.fallboo.scripts.rt6.scripts.miner.gui;
 
-import com.fallboo.scripts.rt6.miner.AIOMiner;
-import com.fallboo.scripts.rt6.miner.data.Mines;
-import com.fallboo.scripts.rt6.miner.data.MiningStyle;
-import com.fallboo.scripts.rt6.miner.data.Rocks;
+import com.fallboo.scripts.rt6.scripts.miner.AIOMiner;
+import com.fallboo.scripts.rt6.scripts.miner.data.Mines;
+import com.fallboo.scripts.rt6.scripts.miner.data.MiningStyle;
+import com.fallboo.scripts.rt6.scripts.miner.data.Rocks;
 
 import javax.swing.*;
 import java.awt.*;

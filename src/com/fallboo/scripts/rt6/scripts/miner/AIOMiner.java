@@ -1,12 +1,12 @@
-package com.fallboo.scripts.rt6.miner;
+package com.fallboo.scripts.rt6.scripts.miner;
 
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
-import com.fallboo.scripts.rt6.miner.actions.*;
-import com.fallboo.scripts.rt6.miner.data.Mines;
-import com.fallboo.scripts.rt6.miner.data.MiningStyle;
-import com.fallboo.scripts.rt6.miner.data.Rocks;
-import com.fallboo.scripts.rt6.miner.gui.Gui;
+import com.fallboo.scripts.rt6.scripts.miner.actions.*;
+import com.fallboo.scripts.rt6.scripts.miner.data.Mines;
+import com.fallboo.scripts.rt6.scripts.miner.data.MiningStyle;
+import com.fallboo.scripts.rt6.scripts.miner.data.Rocks;
+import com.fallboo.scripts.rt6.scripts.miner.gui.Gui;
 import org.powerbot.script.MessageEvent;
 import org.powerbot.script.MessageListener;
 import org.powerbot.script.PaintListener;

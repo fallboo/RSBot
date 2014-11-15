@@ -1,9 +1,9 @@
-package com.fallboo.scripts.rt6.miner.actions;
+package com.fallboo.scripts.rt6.scripts.miner.actions;
 
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
-import com.fallboo.scripts.rt6.miner.data.MiningStyle;
-import com.fallboo.scripts.rt6.miner.data.Ores;
+import com.fallboo.scripts.rt6.scripts.miner.data.MiningStyle;
+import com.fallboo.scripts.rt6.scripts.miner.data.Ores;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt6.Item;
