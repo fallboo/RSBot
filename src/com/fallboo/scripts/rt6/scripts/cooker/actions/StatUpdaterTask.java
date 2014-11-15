@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fallboo.scripts.rt6.cooker.actions;
+package com.fallboo.scripts.rt6.scripts.cooker.actions;
 
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;

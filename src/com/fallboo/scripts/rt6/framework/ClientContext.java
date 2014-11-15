@@ -11,6 +11,7 @@ package com.fallboo.scripts.rt6.framework;
 public class ClientContext extends org.powerbot.script.rt6.ClientContext {
     public final Paint paint;
     public final AntiPattern antiPattern;
+
     public ClientContext(org.powerbot.script.rt6.ClientContext cc) {
         super(cc);
         paint = new Paint(this);

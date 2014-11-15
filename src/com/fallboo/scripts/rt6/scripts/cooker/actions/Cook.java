@@ -1,29 +1,27 @@
-package com.fallboo.scripts.rt6.cooker.actions;
+package com.fallboo.scripts.rt6.scripts.cooker.actions;
 
-import com.fallboo.scripts.rt6.cooker.data.CookableFood;
-import com.fallboo.scripts.rt6.cooker.data.FoodTypes;
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
+import com.fallboo.scripts.rt6.scripts.cooker.data.CookableFood;
+import com.fallboo.scripts.rt6.scripts.cooker.data.FoodTypes;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
-import org.powerbot.script.rt6.GameObject;
-import org.powerbot.script.rt6.Item;
-import org.powerbot.script.rt6.Menu;
-import org.powerbot.script.rt6.Widget;
+import org.powerbot.script.rt6.*;
 
 import java.util.concurrent.Callable;
 
 /**
  * Created by Jake on 08/11/2014.
  */
-public class OvenUser extends GraphScript.Action<ClientContext> {
+public class Cook extends GraphScript.Action<ClientContext> {
     private final FoodTypes foodType;
     private final CookableFood food;
-    private final int OVEN_WIDGET = 1370, CLOSE_WIDGET = 1251, OVEN_SELECT_COMPONENT = 38, CLOSE_WIDGET_COMPONENT = 49;
-    private final int[] RANGES = {67061};
+    private final int OVEN_WIDGET = 1370, OVEN_FOOD_WIDGET = 1371, OVEN_FOOD_COMPONENT = 44, OVEN_SELECT_COMPONENT = 38, CLOSE_WIDGET = 1251, CLOSE_WIDGET_COMPONENT = 49;
+    private final int[] RANGES = {67061, 76295};
+    private final boolean clickFood = false;
 
-    public OvenUser(ClientContext ctx, FoodTypes foodType, CookableFood food) {
+    public Cook(ClientContext ctx, FoodTypes foodType, CookableFood food) {
         super(ctx);
         this.foodType = foodType;
         this.food = food;
@@ -31,15 +29,10 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
 
     @Override
     public boolean valid() {
-      /*  System.out.println("1: " + (ctx.backpack.select().id(food.getIds()).count() != 0));
-        System.out.println("2: " + (isCookingWindowOpen()));
-        System.out.println("3: " +(!ctx.objects.select().id(RANGES).isEmpty()) );
-        System.out.println("4: " + (ctx.players.local().animation() == -1));
-        System.out.println("5: " + (!ctx.players.local().inMotion()));*/
         return ctx.backpack.select().id(food.getIds()).count() != 0
-                && (isCookingWindowOpen() || !ctx.objects.select().id(RANGES).isEmpty())
-                && ctx.players.local().animation() == -1
-                && !ctx.players.local().inMotion();
+                && (isCookingWindowOpen() || (!ctx.objects.select().id(RANGES).isEmpty() && ctx.objects.peek().inViewport()))
+                /*&& ctx.players.local().animation() == -1
+                && !ctx.players.local().inMotion()*/;
     }
 
     @Override
@@ -58,21 +51,27 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return ovenWidget.component(OVEN_SELECT_COMPONENT).visible();
+                    return (!ctx.players.local().inMotion() && ctx.players.local().animation() == -1) || ovenWidget.component(OVEN_SELECT_COMPONENT).visible();
                 }
-            }, 250, 10);
+            }, 450, 30);
         }
-        if (ovenWidget.component(OVEN_SELECT_COMPONENT).visible()) {
-            ovenWidget.component(OVEN_SELECT_COMPONENT).click();
-            Condition.sleep(1250);
-            Condition.wait(new Callable<Boolean>() {
+        if (!clickFood) {
+            checkSelectedFood();
+        }
+        clickCook(ovenWidget);
+        waitTillCooked(closeWidget);
 
-                @Override
-                public Boolean call() throws Exception {
-                    return (!ctx.players.local().inMotion() || closeWidget.component(CLOSE_WIDGET_COMPONENT).visible());
-                }
-            }, 500, 80);
+    }
+
+    private void checkSelectedFood() {
+        final Widget cookFoodWidget = ctx.widgets.select().id(OVEN_FOOD_WIDGET).poll();
+        Component selectedFood = cookFoodWidget.component(OVEN_FOOD_COMPONENT).component(food.getComponent());
+        if (selectedFood.textureId() == -1) {
+            ctx.antiPattern.clickComponent(selectedFood);
         }
+    }
+
+    private void waitTillCooked(final Widget closeWidget) {
         if (closeWidget.component(CLOSE_WIDGET_COMPONENT).visible()) {
             Condition.wait(new Callable<Boolean>() {
                 @Override
@@ -82,8 +81,20 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
                 }
             }, 250, 40);
         }
-        System.out.println("End");
+    }
 
+    private void clickCook(final Widget ovenWidget) {
+        if (ovenWidget.component(OVEN_SELECT_COMPONENT).visible()) {
+            ovenWidget.component(OVEN_SELECT_COMPONENT).click();
+            Condition.sleep(1250);
+            Condition.wait(new Callable<Boolean>() {
+
+                @Override
+                public Boolean call() throws Exception {
+                    return !ovenWidget.component(OVEN_SELECT_COMPONENT).visible();
+                }
+            }, 200, 15);
+        }
     }
 
     private boolean clickRange() {
@@ -102,7 +113,7 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
                 }
             }, 200, 5);
         }
-        if (!ctx.backpack.itemSelected()) {
+        if (clickFood && !ctx.backpack.itemSelected()) {
             final Item item = ctx.backpack.select().id(food.getIds()).shuffle().poll();
             if (!item.interact(true, "Use")) {
                 return false;
@@ -118,7 +129,8 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
         return range.interact(false, new Filter<Menu.Command>() {
             @Override
             public boolean accept(Menu.Command command) {
-                return command.action.contains("Use") && command.option.contains("Oven");
+                return clickFood ? command.action.contains("Use") && (command.option.contains("Oven") || command.option.contains("Range")) :
+                        command.action.contains("Cook at") && (command.option.contains("Oven") || command.option.contains("Range"));
             }
         });
     }
@@ -131,7 +143,8 @@ public class OvenUser extends GraphScript.Action<ClientContext> {
     }
 
     private boolean isCookingWindowOpen() {
-        return !ctx.widgets.select().id(OVEN_WIDGET, CLOSE_WIDGET).isEmpty() && (ctx.widgets.poll().valid() || ctx.
-                widgets.poll().valid());
+        return (!ctx.widgets.select().id(OVEN_WIDGET, CLOSE_WIDGET).isEmpty() &&
+                (getSelectedWidget(OVEN_WIDGET).component(OVEN_SELECT_COMPONENT).visible() || getSelectedWidget(CLOSE_WIDGET).component(CLOSE_WIDGET_COMPONENT).visible()));
+
     }
 }

@@ -1,8 +1,8 @@
-package com.fallboo.scripts.rt6.cooker.actions;
+package com.fallboo.scripts.rt6.scripts.cooker.actions;
 
-import com.fallboo.scripts.rt6.cooker.data.CookableFood;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
+import com.fallboo.scripts.rt6.scripts.cooker.data.CookableFood;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt6.Bank.Amount;
@@ -19,7 +19,7 @@ public class BankFood extends GraphScript.Action<ClientContext> {
 
     @Override
     public boolean valid() {
-        return ctx.bank.opened() && (ctx.backpack.select().id(food.getIds()).count() != 28);
+        return ctx.bank.opened() && (ctx.backpack.select().id(food.getIds()).count() == 0);
     }
 
     @Override
@@ -32,18 +32,16 @@ public class BankFood extends GraphScript.Action<ClientContext> {
                     return ctx.backpack.select().count() == 0;
                 }
             }, 750, 5)) return;
-        System.out.println("Backpack count: " + ctx.backpack.select().count());
         if (ctx.backpack.select().count() > 0)
             return;
         if (ctx.bank.select().id(food.getIds()).count() == 0) {
-            if (Random.nextInt(0, 10) == 2) ctx.bank.close();
+            if (Random.nextInt(0, 10) == 2)
+                ctx.bank.close();
             ctx.controller.stop();
             return;
         }
         if (food.getIds().length == 1) {
-            System.out.println("Retrieving 1 type");
             ctx.bank.withdraw(food.getIds()[0], Amount.ALL);
-        } else
-            System.out.println("Retrieving 2 type");
+        }
     }
 }

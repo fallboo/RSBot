@@ -1,10 +1,10 @@
-package com.fallboo.scripts.rt6.cooker.gui;
+package com.fallboo.scripts.rt6.scripts.cooker.gui;
 
-import com.fallboo.scripts.rt6.cooker.BurthCooker;
-import com.fallboo.scripts.rt6.cooker.data.Bank;
-import com.fallboo.scripts.rt6.cooker.data.CookableFood;
-import com.fallboo.scripts.rt6.cooker.data.Fish;
-import com.fallboo.scripts.rt6.cooker.data.FoodTypes;
+import com.fallboo.scripts.rt6.scripts.cooker.BurthCooker;
+import com.fallboo.scripts.rt6.scripts.cooker.data.Bank;
+import com.fallboo.scripts.rt6.scripts.cooker.data.CookableFood;
+import com.fallboo.scripts.rt6.scripts.cooker.data.Fish;
+import com.fallboo.scripts.rt6.scripts.cooker.data.FoodTypes;
 
 import javax.swing.*;
 import java.awt.*;

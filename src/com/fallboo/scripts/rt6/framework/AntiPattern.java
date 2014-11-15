@@ -1,6 +1,7 @@
 package com.fallboo.scripts.rt6.framework;
 
 import org.powerbot.script.Random;
+import org.powerbot.script.rt6.Component;
 import org.powerbot.script.rt6.GameObject;
 import org.powerbot.script.rt6.Interactive;
 
@@ -8,6 +9,7 @@ public class AntiPattern {
 
     private long nextRun;
     private final ClientContext ctx;
+
 
     //TODO Add misclicking for components, objects(?), Mouse off screen, defocusing/focusing
     public enum State {
@@ -46,7 +48,7 @@ public class AntiPattern {
                 break;
             case 5:
                 if (state == State.IDLE) {
-                    GameObject go = ctx.objects.select(Interactive.areInViewport()).shuffle().poll();
+                    GameObject go = ctx.objects.select().select(Interactive.areInViewport()).shuffle().poll();
                     if (go.valid())
                         go.interact("Examine");
                 }
@@ -54,6 +56,11 @@ public class AntiPattern {
 
         }
         nextRun = ctx.controller.script().getRuntime() + Random.nextInt(6000, 25000);
+    }
+
+    public void clickComponent(Component selectedFood) {
+        //TODO Add chance of misclick
+        selectedFood.click();
     }
 
     private void setYaw(int i) {

@@ -1,24 +1,25 @@
-package com.fallboo.scripts.rt6.cooker;
+package com.fallboo.scripts.rt6.scripts.cooker;
 
-import com.fallboo.scripts.rt6.cooker.actions.*;
-import com.fallboo.scripts.rt6.cooker.data.Bank;
-import com.fallboo.scripts.rt6.cooker.data.CookableFood;
-import com.fallboo.scripts.rt6.cooker.data.FoodTypes;
-import com.fallboo.scripts.rt6.cooker.gui.Gui;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
+import com.fallboo.scripts.rt6.scripts.cooker.actions.*;
+import com.fallboo.scripts.rt6.scripts.cooker.data.Bank;
+import com.fallboo.scripts.rt6.scripts.cooker.data.CookableFood;
+import com.fallboo.scripts.rt6.scripts.cooker.data.FoodTypes;
+import com.fallboo.scripts.rt6.scripts.cooker.gui.Gui;
 import org.powerbot.script.MessageEvent;
 import org.powerbot.script.MessageListener;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.Script;
 
 import java.awt.*;
+import java.util.regex.Pattern;
 
 @Script.Manifest(name = "hCooker", description = "Cooks food in Burthrope")
 public class BurthCooker extends GraphScript<ClientContext> implements PaintListener, MessageListener {
 
     private Gui gui = null;
-    private final double version = 0.1;
+    private final double version = 0.2;
     private BurthCooker instance;
     private CookableFood food;
 
@@ -50,15 +51,17 @@ public class BurthCooker extends GraphScript<ClientContext> implements PaintList
         setupNormalActions();
         this.food = food;
         chain.add(new WalkToRange(ctx, bank, food));
-        chain.add(new OvenUser(ctx, foodTypes, food));
+        chain.add(new Cook(ctx, foodTypes, food));
         chain.add(new BankFood(ctx, food));
         chain.add(new WalkToBank(ctx, bank, food));
     }
 
+    private final Pattern cookPattern = Pattern.compile("(You )(success?fully|cook|manage to cook).*", Pattern.CASE_INSENSITIVE);
+
     @Override
     public void messaged(MessageEvent me) {
         if (me.type() == 109) {
-            if (me.text().contains("You successfully") || me.text().contains("You cook")) {
+            if (me.text().matches(cookPattern.pattern())) {
                 ctx.paint.addItem("Cooked " + food.getName());
             } else if (me.text().contains("burn")) {
                 ctx.paint.addItem("Burnt " + food.getName());

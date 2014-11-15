@@ -1,10 +1,10 @@
-package com.fallboo.scripts.rt6.cooker.actions;
+package com.fallboo.scripts.rt6.scripts.cooker.actions;
 
-import com.fallboo.scripts.rt6.cooker.data.Bank;
-import com.fallboo.scripts.rt6.cooker.data.CookableFood;
 import com.fallboo.scripts.rt6.framework.AntiPattern;
 import com.fallboo.scripts.rt6.framework.ClientContext;
 import com.fallboo.scripts.rt6.framework.GraphScript;
+import com.fallboo.scripts.rt6.scripts.cooker.data.Bank;
+import com.fallboo.scripts.rt6.scripts.cooker.data.CookableFood;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

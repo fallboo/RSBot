@@ -1,13 +1,14 @@
-package com.fallboo.scripts.rt6.cooker.data;
+package com.fallboo.scripts.rt6.scripts.cooker.data;
 
 /**
- * Created by Jake on 08/11/2014.
+ * Created by Jake on 09/11/2014.
  */
-public enum Fish implements CookableFood {
-    SHRIMP(317), ANCHOVIES(321), SARDINE(327), SALMON(331), TROUT(335), COD(341), HERRING(345), PIKE(349), MACKEREL(353), TUNA(359), BASS(363);
+public enum Meat implements CookableFood {
+    CHICKEN(2138), UNDEAD_CHICKEN(4289), BEEF(2132), RAT(2134), BEAR(2136), YAK(10816)/** UGTHANKI(1859), RABBIT(3226)*/
+    ;
     private final int id;
 
-    Fish(int id) {
+    Meat(int id) {
         this.id = id;
     }
 
@@ -19,6 +20,15 @@ public enum Fish implements CookableFood {
     @Override
     public String getName() {
         return toString();
+    }
+
+    @Override
+    public int getComponent() {
+        if (ordinal() <= 1)
+            return ordinal() * 4;
+        if (ordinal() >= 2 && ordinal() <= 5)
+            return 2 * 4;
+        return (ordinal() - 3) * 4;
     }
 
     @Override
